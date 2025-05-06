@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/2.0.1/aframe/build/aframe-ar.min.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+      #info { position: absolute; top: 10px; left: 10px; background: white; padding: 5px; }
+    </style>
+  </head>
+  <body>
+    <div id="info">
+      <a href="pattern-marker(3).patt" download>Marker herunterladen</a>
+    </div>
+
+    <a-scene embedded arjs>
+      <a-marker type="pattern" url="pattern-marker(3).patt">
+        <!-- Urlaubsszene -->
+        <a-box position="0 0.5 0" color="#4CC3D9" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"></a-box>
+
+
+        <!-- Dynamische Deko-Objekte (z. B. Sterne) -->
+        <a-entity id="stars"></a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      // Sterne als JavaScript-Objekte
+      const starData = [];
+      for (let i = 0; i < 30; i++) {
+        starData.push({
+          x: (Math.random() - 0.5) * 2,
+          y: Math.random() * 2,
+          z: (Math.random() - 0.5) * 2,
+          color: `#${Math.floor(Math.random()*16777215).toString(16)}`
+        });
+      }
+
+      const starsEl = document.getElementById('stars');
+      starData.forEach(star => {
+        const starEl = document.createElement('a-sphere');
+        starEl.setAttribute('position', `${star.x} ${star.y} ${star.z}`);
+        starEl.setAttribute('radius', 0.05);
+        starEl.setAttribute('color', star.color);
+        starsEl.appendChild(starEl);
+      });
+    </script>
+  </body>
+</html>
